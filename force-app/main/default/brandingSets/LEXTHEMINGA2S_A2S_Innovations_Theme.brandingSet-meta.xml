@@ -2,7 +2,7 @@
 <BrandingSet xmlns="http://soap.sforce.com/2006/04/metadata">
     <brandingSetProperty>
         <propertyName>BRAND_COLOR</propertyName>
-        <propertyValue>#07DAFF</propertyValue>
+        <propertyValue>#64c4cb</propertyValue>
     </brandingSetProperty>
     <brandingSetProperty>
         <propertyName>PAGE_BACKGROUND_COLOR</propertyName>
@@ -14,11 +14,11 @@
     </brandingSetProperty>
     <brandingSetProperty>
         <propertyName>BRAND_IMAGE</propertyName>
-        <propertyValue></propertyValue>
+        <propertyValue>/file-asset/MicrosoftTeamsimage_1?v=1</propertyValue>
     </brandingSetProperty>
     <brandingSetProperty>
         <propertyName>BANNER_IMAGE</propertyName>
-        <propertyValue></propertyValue>
+        <propertyValue>/file-asset/MicrosoftTeamsimage?v=1</propertyValue>
     </brandingSetProperty>
     <brandingSetProperty>
         <propertyName>GROUPS_BANNER_IMAGE</propertyName>
@@ -26,7 +26,7 @@
     </brandingSetProperty>
     <brandingSetProperty>
         <propertyName>GROUP_IMAGE</propertyName>
-        <propertyValue></propertyValue>
+        <propertyValue>/file-asset/MicrosoftTeamsimage_2?v=1</propertyValue>
     </brandingSetProperty>
     <brandingSetProperty>
         <propertyName>PROFILE_BANNER_IMAGE</propertyName>
@@ -34,7 +34,7 @@
     </brandingSetProperty>
     <brandingSetProperty>
         <propertyName>USER_IMAGE</propertyName>
-        <propertyValue></propertyValue>
+        <propertyValue>/file-asset/MicrosoftTeamsimage_21?v=1</propertyValue>
     </brandingSetProperty>
     <brandingSetProperty>
         <propertyName>LINK_AS_BACKGROUND</propertyName>
@@ -44,5 +44,5 @@
         <propertyName>OVERRIDE_LOADING_PAGE</propertyName>
         <propertyValue>false</propertyValue>
     </brandingSetProperty>
-    <masterLabel>A2S_A2S_Innovations_Theme</masterLabel>
+    <masterLabel>A2S Innovations Theme</masterLabel>
 </BrandingSet>
