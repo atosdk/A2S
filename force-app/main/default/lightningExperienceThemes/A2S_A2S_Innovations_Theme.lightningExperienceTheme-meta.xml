@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningExperienceTheme xmlns="http://soap.sforce.com/2006/04/metadata">
+    <defaultBrandingSet>LEXTHEMINGA2S_A2S_Innovations_Theme</defaultBrandingSet>
+    <description>Custom theme for A2S Innovations.</description>
+    <masterLabel>A2S Innovations Theme</masterLabel>
+    <shouldOverrideLoadingImage>false</shouldOverrideLoadingImage>
+</LightningExperienceTheme>
