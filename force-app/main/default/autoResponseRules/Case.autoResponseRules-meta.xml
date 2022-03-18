@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AutoResponseRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <autoResponseRule>
+        <fullName>Case Confirmation</fullName>
+        <active>false</active>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Case.Origin</field>
+                <operation>equals</operation>
+                <value>Email</value>
+            </criteriaItems>
+            <notifyCcRecipients>true</notifyCcRecipients>
+            <replyToEmail>miron.srebrakowski@atos.net</replyToEmail>
+            <senderEmail>miron.srebrakowski@atos.net</senderEmail>
+            <senderName>A2S Team</senderName>
+            <template>unfiled$public/SUPPORTCaseResponsewithSolutionSAMPLE</template>
+        </ruleEntry>
+    </autoResponseRule>
+    <autoResponseRule>
+        <fullName>Confirmation Response</fullName>
+        <active>true</active>
+        <ruleEntry>
+            <criteriaItems>
+                <field>Case.Origin</field>
+                <operation>equals</operation>
+                <value>Email</value>
+            </criteriaItems>
+            <notifyCcRecipients>true</notifyCcRecipients>
+            <replyToEmail>a2sinnovations@gmail.com</replyToEmail>
+            <senderEmail>dawid.kolodziej@atos.net</senderEmail>
+            <senderName>A2S Team</senderName>
+            <template>unfiled$public/SUPPORTCaseResponsewithSolutionSAMPLE</template>
+        </ruleEntry>
+    </autoResponseRule>
+</AutoResponseRules>
