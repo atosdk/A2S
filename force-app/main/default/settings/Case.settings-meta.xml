@@ -26,16 +26,15 @@
         <routingAddresses>
             <addressType>EmailToCase</addressType>
             <caseOrigin>Email</caseOrigin>
-            <caseOwner>All_Email</caseOwner>
+            <caseOwner>A2S_Unassigned_Cases</caseOwner>
             <caseOwnerType>Queue</caseOwnerType>
-            <casePriority>Medium</casePriority>
-            <createTask>true</createTask>
+            <casePriority>High</casePriority>
+            <createTask>false</createTask>
             <emailAddress>a2sinnovations@gmail.com</emailAddress>
             <emailServicesAddress>a2sinnovations@1wblb41avgzfstxnm7ku2viepw9rzrwz1m4c30aw7ybgqpxwey.8e-hessuaw.cs87.case.sandbox.salesforce.com</emailServicesAddress>
             <isVerified>true</isVerified>
             <routingName>a2sinnovations@gmail.com</routingName>
-            <saveEmailHeaders>true</saveEmailHeaders>
-            <taskStatus>Not Started</taskStatus>
+            <saveEmailHeaders>false</saveEmailHeaders>
         </routingAddresses>
         <unauthorizedSenderAction>Discard</unauthorizedSenderAction>
     </emailToCase>
