@@ -1,0 +1,26 @@
+<template>
+    <div class="slds-p-around_medium">
+
+        <div class="slds-grid slds-m-around_small slds-grid_align-space slds-grid_vertical-align-center">
+            
+            <h3 class="slds-col"><b><u>Events and Activities</u></b></h3>
+
+            <div class="slds-col slds-size_1-of-3">
+                <lightning-combobox
+                    name="Birthday"
+                    value={label}
+                    placeholder={label}
+                    options={options}
+                    onchange={handleChange} ></lightning-combobox>
+            </div>
+
+        </div>
+
+        <div>
+            <c-birthday-search value={value} label={label}></c-birthday-search>
+            <c-anniversary-search value={value} label={label}></c-anniversary-search>
+        </div>  
+        
+    </div>
+
+</template>

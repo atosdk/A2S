@@ -1,0 +1,43 @@
+<template>
+        <div class="slds-m-around_small slds-box slds-theme_shade slds-p-around_small" style="width:40vw">
+
+            <div class="slds-grid slds-gutters">
+
+                <div class="slds-col">
+                    <lightning-icon icon-name="standard:partners" alternative-text="Event" title="Event"></lightning-icon>
+                </div>
+
+                <div class="slds-col">
+                    <h3><b><u>Work Anniversaries</u></b></h3>
+
+                    <br>
+
+                    <ul>
+                        <template for:each={users.data} for:item="user">
+                            <div key={user.id} class="slds-var-p-bottom_medium slds-grid slds-gutters" >
+
+                                <div class="slds-col slds-size_1-of-2">
+                                    <h4><b>Name</b></h4>
+                                    <li class="slds-dropdown__item slds-is-selected" key={user.Id}>{user.Name}</li>
+                                </div>
+
+                                <div class="slds-col slds-size_2-of-2">
+                                    <h4><b>Date</b></h4>
+                                    <lightning-formatted-date-time
+                                    value={user.Employment_Start_Date__c}
+                                    month="short"
+                                    day="2-digit"
+                                    >
+                                    </lightning-formatted-date-time>
+                                </div>
+
+                            </div>
+                        </template>
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+</template>
