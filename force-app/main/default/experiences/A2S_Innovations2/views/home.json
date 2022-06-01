@@ -1,0 +1,81 @@
+{
+  "appPageId" : "3a0ddcce-1643-4458-8673-0e0c80acb803",
+  "componentName" : "siteforce:sldsThreeCol444Layout",
+  "id" : "f0eaa51a-d2cd-48f4-945e-4415290d5259",
+  "label" : "Home",
+  "regions" : [ {
+    "components" : [ {
+      "componentAttributes" : {
+        "customTitle" : "",
+        "parentRecordId" : "",
+        "relatedListName" : "",
+        "showBreadCrumbs" : true,
+        "showCustomTitle" : false,
+        "showManualRefreshButton" : true,
+        "showRowNumbers" : true
+      },
+      "componentName" : "forceCommunity:relatedList",
+      "id" : "cfbafd67-c0d5-4602-a528-fe311dc7441a",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : {
+        "numberOfArticles" : 5,
+        "title" : "Trending Articles",
+        "topicId" : "{!topicId}"
+      },
+      "componentName" : "selfService:topicTrendingArticles42",
+      "id" : "8566fe04-1423-405b-97e9-97d495d7d8be",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    }, {
+      "componentAttributes" : {
+        "richTextValue" : "<!--  ----------------------------------------------------------------------  -->\n<!--  NOTE: Please add the following <META> element to your page <HEAD>.      -->\n<!--  If necessary, please modify the charset parameter to specify the        -->\n<!--  character set of your HTML page.                                        -->\n<!--  ----------------------------------------------------------------------  -->\n\n<!--  ----------------------------------------------------------------------  -->\n<!--  NOTE: Please add the following <FORM> element to your page.             -->\n<!--  ----------------------------------------------------------------------  -->\n\n<form action=\"https://atosgrad--develop.my.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8\" method=\"POST\">\n\n<input type=hidden name=\"orgid\" value=\"00D8E000000HEsS\">\n<input type=hidden name=\"retURL\" value=\"http://develop-a2s.cs87.force.com/s\">\n\n<!--  ----------------------------------------------------------------------  -->\n<!--  NOTE: These fields are optional debugging elements. Please uncomment    -->\n<!--  these lines if you wish to test in debug mode.                          -->\n<!--  <input type=\"hidden\" name=\"debug\" value=1>                              -->\n<!--  <input type=\"hidden\" name=\"debugEmail\"                                  -->\n<!--  value=\"jessica.geary@atos.net\">                                         -->\n<!--  ----------------------------------------------------------------------  -->\n\n<label for=\"name\">Contact Name</label><input  id=\"name\" maxlength=\"80\" name=\"name\" size=\"20\" type=\"text\" /><br>\n\n<label for=\"email\">Email</label><input  id=\"email\" maxlength=\"80\" name=\"email\" size=\"20\" type=\"text\" /><br>\n\n<label for=\"phone\">Phone</label><input  id=\"phone\" maxlength=\"40\" name=\"phone\" size=\"20\" type=\"text\" /><br>\n\n<label for=\"subject\">Subject</label><input  id=\"subject\" maxlength=\"80\" name=\"subject\" size=\"20\" type=\"text\" /><br>\n\n<label for=\"description\">Description</label><textarea name=\"description\"></textarea><br>\n\nCase Classification:<select  id=\"00N8E00000Cp3A3\" name=\"00N8E00000Cp3A3\" title=\"Case Classification\"><option value=\"\">--None--</option><option value=\"Product\">Product</option>\n<option value=\"Industry\">Industry</option>\n</select><br>\n\n<input type=\"hidden\"  id=\"external\" name=\"external\" value=\"1\" /><br>\n\n<input type=\"submit\" name=\"submit\">\n\n</form>"
+      },
+      "componentName" : "forceCommunity:htmlBlock",
+      "id" : "2d87fbb1-2cee-4484-93b0-469cf28faf6c",
+      "renderPriority" : "NEUTRAL",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "03314869-bead-4ca3-a7f5-d95caad273ec",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "425f7b0a-0cc1-404e-ab53-b0deb600513f",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "32724ee8-9fd9-41f9-a56a-e6cd38cef815",
+    "regionName" : "sidebar",
+    "type" : "region"
+  }, {
+    "id" : "24fb7be6-07f8-42f0-bcbd-370d4ebbdfb7",
+    "regionName" : "sidebarAlt",
+    "type" : "region"
+  }, {
+    "id" : "02f299c8-b161-451b-8491-28834f4616e9",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "Home"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "1dfed7b7-cee5-4d22-935c-d23e6450a30e",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "d9c18e4e-ddc1-44b6-99ee-7fe3bddf93c3",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Home",
+  "type" : "view",
+  "viewType" : "home"
+}
