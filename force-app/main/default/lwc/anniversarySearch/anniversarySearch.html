@@ -1,43 +1,62 @@
 <template>
-        <div class="slds-m-around_small slds-box slds-theme_shade slds-p-around_small" style="width:40vw">
-
-            <div class="slds-grid slds-gutters">
-
-                <div class="slds-col">
-                    <lightning-icon icon-name="standard:partners" alternative-text="Event" title="Event"></lightning-icon>
-                </div>
-
-                <div class="slds-col">
-                    <h3><b><u>Work Anniversaries</u></b></h3>
-
-                    <br>
-
-                    <ul>
-                        <template for:each={users.data} for:item="user">
-                            <div key={user.id} class="slds-var-p-bottom_medium slds-grid slds-gutters" >
-
-                                <div class="slds-col slds-size_1-of-2">
-                                    <h4><b>Name</b></h4>
-                                    <li class="slds-dropdown__item slds-is-selected" key={user.Id}>{user.Name}</li>
-                                </div>
-
-                                <div class="slds-col slds-size_2-of-2">
-                                    <h4><b>Date</b></h4>
-                                    <lightning-formatted-date-time
-                                    value={user.Employment_Start_Date__c}
-                                    month="short"
-                                    day="2-digit"
-                                    >
-                                    </lightning-formatted-date-time>
-                                </div>
-
-                            </div>
-                        </template>
-                    </ul>
-
-                </div>
-
-            </div>
-
+  <div class="slds-grid slds-wrap">
+    <div class="slds-col slds-grow-none slds-p-top_large">
+      <lightning-icon
+        style="background: #0070d2"
+        icon-name="standard:partners"
+        alternative-text="Event"
+        title="Event"
+      ></lightning-icon>
+    </div>
+    <div class="slds-col slds-grow-none slds-p-left_medium">
+      <div class="slds-text-heading_small slds-p-top_x-large">
+        <b>Work Anniversaries</b>
+      </div>
+    </div>
+  </div>
+  <div class="slds-grid slds-wrap">
+    <div class="slds-col slds-p-left_xx-large slds-p-top_large">
+      <div class="vertical"></div>
+      <div class="slds-box slds-theme_shade">
+        <div class="slds-grid">
+          <div class="slds-col slds-p-left_xx-small">
+            <h4><b>Name</b></h4>
+            <br />
+          </div>
+          <div class="slds-col slds-p-left_xx-small">
+            <h4><b>Date</b></h4>
+            <br />
+          </div>
         </div>
+        <ul>
+          <template for:each={users.data} for:item="user">
+            <div class="slds-grid slds-wrap" key={user.id}>
+              <div class="slds-col slds-size_1-of-2 slds-p-left_xx-small">
+                <li class="slds-dropdown__item slds-is-selected" key={user.Id}>
+                  {user.Name}
+                </li>
+                <br />
+              </div>
+
+              <div class="slds-col slds-size_1-of-2 slds-p-left_x-small">
+                <lightning-formatted-date-time
+                  value={user.Employment_Start_Date__c}
+                  month="short"
+                  day="2-digit"
+                >
+                </lightning-formatted-date-time>
+                <br />
+              </div>
+
+              <!-- <div class="slds-col">
+                                <h4><b>Team</b></h4>
+                                <li>{user.Team__c}</li>
+                                <br>
+                            </div> -->
+            </div>
+          </template>
+        </ul>
+      </div>
+    </div>
+  </div>
 </template>
