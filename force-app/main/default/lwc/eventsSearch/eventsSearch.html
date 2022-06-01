@@ -1,0 +1,41 @@
+<template>
+  <article class="slds-card slds-p-horizontal_medium slds-p-bottom_medium">
+    <div class="slds-grid">
+      <div>
+        <div class="slds-text-heading_medium slds-p-top_large">
+          <b>Events & Activities</b>
+        </div>
+      </div>
+      <div class="slds-col_bump-left">
+        <lightning-combobox
+          name="Birthday"
+          value={value}
+          placeholder={month}
+          options={monthOptions}
+          onchange={handleChange}
+        ></lightning-combobox>
+      </div>
+      <!-- 
+          <div>
+            <lightning-combobox class ="slds-p-left_xx-large"
+            name="Team"
+            value={value}
+            placeholder={team}
+            options={picklistOptions}
+            onchange={handleTeamChange} ></lightning-combobox>
+          </div> -->
+    </div>
+    <div class="box-container slds-m-top_xx-large">
+      <c-birthday-search
+        value={monthvalue}
+        label={month}
+        team={team}
+      ></c-birthday-search>
+      <c-anniversary-search
+        value={monthvalue}
+        label={month}
+        team={team}
+      ></c-anniversary-search>
+    </div>
+  </article>
+</template>

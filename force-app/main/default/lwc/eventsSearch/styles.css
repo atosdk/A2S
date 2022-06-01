@@ -1,0 +1,6 @@
+.vertical {
+  border-left: 6px solid black;
+  height: 200px;
+  position: absolute;
+  left: 50%;
+}
