@@ -9,24 +9,14 @@
         <p>Some info</p>
       </lightning-tab>
 
-      <lightning-tab label="User">
-        <c-field-selection-tab
-          objectname="User"
-          onfieldschange={handleFieldsChange}
-        ></c-field-selection-tab>
-      </lightning-tab>
-
-      <lightning-tab label="Account">
-        <c-field-selection-tab objectname="Account"></c-field-selection-tab>
-      </lightning-tab>
-
-      <lightning-tab label="Contact">
-        <c-field-selection-tab objectname="Contact"></c-field-selection-tab>
-      </lightning-tab>
-
-      <lightning-tab label="Lead">
-        <c-field-selection-tab objectname="Lead"></c-field-selection-tab>
-      </lightning-tab>
+      <template for:each={objects} for:item="object">
+        <lightning-tab key={object} label={object}>
+          <c-field-selection-tab
+            objectname={object}
+            onfieldschange={handleFieldsChange}
+          ></c-field-selection-tab>
+        </lightning-tab>
+      </template>
     </lightning-tabset>
 
     <hr />
