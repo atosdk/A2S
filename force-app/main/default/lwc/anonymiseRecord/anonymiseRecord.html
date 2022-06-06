@@ -5,6 +5,10 @@
     </div>
 
     <lightning-tabset>
+      <lightning-tab label="Info">
+        <p>Some info</p>
+      </lightning-tab>
+
       <lightning-tab label="Users">
         <div class="slds-m-bottom_medium">
           <lightning-button
@@ -14,7 +18,20 @@
             onclick={handleClick}
           ></lightning-button>
         </div>
-        User Fields
+
+        <div>
+          <lightning-dual-listbox
+            name="languages"
+            label="Please select fields"
+            source-label="Available"
+            selected-label="Selected"
+            field-level-help="Select fields to anonymise"
+            options={options}
+            required-options={requiredOptions}
+            value={values}
+            onchange={handleChange}
+          ></lightning-dual-listbox>
+        </div>
       </lightning-tab>
 
       <lightning-tab label="Accounts">
@@ -26,7 +43,18 @@
             onclick={handleClick}
           ></lightning-button>
         </div>
-        Account fields
+
+        <div>
+          <lightning-dual-listbox
+            name="languages"
+            label="Select Languages"
+            source-label="Available"
+            selected-label="Selected"
+            field-level-help="Select your preferred languages"
+            options={options}
+            onchange={handleChange}
+          ></lightning-dual-listbox>
+        </div>
       </lightning-tab>
 
       <lightning-tab label="Contacts">
@@ -38,7 +66,18 @@
             onclick={handleClick}
           ></lightning-button>
         </div>
-        Contact fields
+
+        <div>
+          <lightning-dual-listbox
+            name="languages"
+            label="Select Languages"
+            source-label="Available"
+            selected-label="Selected"
+            field-level-help="Select your preferred languages"
+            options={options}
+            onchange={handleChange}
+          ></lightning-dual-listbox>
+        </div>
       </lightning-tab>
 
       <lightning-tab label="Leads">
@@ -50,7 +89,18 @@
             onclick={handleClick}
           ></lightning-button>
         </div>
-        Leads fields
+
+        <div>
+          <lightning-dual-listbox
+            name="languages"
+            label="Select Languages"
+            source-label="Available"
+            selected-label="Selected"
+            field-level-help="Select your preferred languages"
+            options={options}
+            onchange={handleChange}
+          ></lightning-dual-listbox>
+        </div>
       </lightning-tab>
     </lightning-tabset>
 
@@ -60,11 +110,7 @@
       <h1>Currently selected fields:</h1>
 
       <div class="slds-box slds-theme_shade slds-m-top_medium">
-        <ul>
-          <template for:each={fields} for:item="field">
-            <li key={field.id}>{field.name}</li>
-          </template>
-        </ul>
+        <p>{fields}</p>
       </div>
     </div>
 
