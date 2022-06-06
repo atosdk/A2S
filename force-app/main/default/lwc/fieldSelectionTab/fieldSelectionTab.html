@@ -1,0 +1,24 @@
+<template>
+  <div class="slds-m-bottom_medium">
+    <lightning-button
+      variant="base"
+      label="Add fields"
+      title="Destructive action"
+      onclick={handleClick}
+    ></lightning-button>
+  </div>
+
+  <div>
+    <lightning-dual-listbox
+      name="languages"
+      label="Please select fields"
+      source-label="Available"
+      selected-label="Selected"
+      field-level-help="Select fields to anonymise"
+      options={options}
+      required-options={requiredOptions}
+      value={values}
+      onchange={handleChange}
+    ></lightning-dual-listbox>
+  </div>
+</template>
