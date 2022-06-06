@@ -17,15 +17,13 @@ export default class FieldSelectionTab extends LightningElement {
     this.fields = e.detail.value;
 
     const selectedEvent = new CustomEvent("fieldschange", {
-      detail: this.fields
+      detail: {
+        objectname: this.objectname,
+        selected: this.fields
+      }
     });
 
     this.dispatchEvent(selectedEvent);
-  }
-
-  handleClick() {
-    // eslint-disable-next-line no-alert
-    alert(this.fields);
   }
 
   async fetchData() {
