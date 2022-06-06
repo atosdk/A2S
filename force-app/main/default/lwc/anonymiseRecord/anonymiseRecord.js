@@ -1,7 +1,7 @@
-import { LightningElement, track } from "lwc";
+import { LightningElement } from "lwc";
 
 export default class AnonymiseRecord extends LightningElement {
-  @track fields = [];
+  fields = [];
 
   objects = ["User", "Account", "Contact", "Lead"];
 
@@ -10,6 +10,11 @@ export default class AnonymiseRecord extends LightningElement {
   }
 
   handleFieldsChange(e) {
-    this.fields = e.detail;
+    this.fields = [...e.detail];
+  }
+
+  handleClick() {
+    // eslint-disable-next-line no-alert
+    alert("Selected fields: \n" + this.fields);
   }
 }

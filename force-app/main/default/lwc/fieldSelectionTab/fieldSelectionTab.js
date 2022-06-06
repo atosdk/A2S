@@ -7,20 +7,25 @@ export default class FieldSelectionTab extends LightningElement {
   values = [];
   requiredOptions = [];
   isFirst = true;
-  //@api fields;
+  fields;
 
   async connectedCallback() {
     await this.fetchData();
   }
 
   handleChange(e) {
-    const fields = e.detail.value;
+    this.fields = e.detail.value;
 
-    const selectedEvent = new CustomEvent("fields", {
-      detail: fields
+    const selectedEvent = new CustomEvent("fieldschange", {
+      detail: this.fields
     });
 
     this.dispatchEvent(selectedEvent);
+  }
+
+  handleClick() {
+    // eslint-disable-next-line no-alert
+    alert(this.fields);
   }
 
   async fetchData() {
