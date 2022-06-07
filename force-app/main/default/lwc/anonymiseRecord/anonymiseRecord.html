@@ -1,0 +1,42 @@
+<template>
+  <article class="slds-card slds-p-around_medium">
+    <div class="slds-m-bottom_medium">
+      <h1><b>Anonymise Object Fields</b></h1>
+    </div>
+
+    <lightning-tabset>
+      <lightning-tab label="Info">
+        <p>Some info</p>
+      </lightning-tab>
+
+      <template for:each={objects} for:item="object">
+        <lightning-tab key={object} label={object}>
+          <c-user-search></c-user-search>
+          <c-field-selection-tab
+            objectname={object}
+            onfieldschange={handleFieldsChange}
+          ></c-field-selection-tab>
+        </lightning-tab>
+      </template>
+    </lightning-tabset>
+
+    <hr />
+
+    <div>
+      <lightning-input
+        type="checkbox"
+        label="Confirm"
+        onchange={handleCheckbox}
+      ></lightning-input>
+    </div>
+
+    <div class="slds-m-top_medium">
+      <lightning-button
+        variant="destructive"
+        label="Anonymise Selected"
+        title="Destructive action"
+        onclick={handleClick}
+      ></lightning-button>
+    </div>
+  </article>
+</template>

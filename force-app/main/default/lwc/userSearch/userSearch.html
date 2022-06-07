@@ -1,0 +1,11 @@
+<template>
+        <lightning-input
+            label="Search Term"
+            variant="label-hidden"
+            placeholder="Search Records"
+            type="text"
+            value={key}
+            onchange={updateKey}>
+        </lightning-input>
+        <lightning-button label="Search" onclick={handleSearch} variant="brand"></lightning-button>
+  </template>
