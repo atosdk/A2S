@@ -5,15 +5,15 @@ export default class AnonymiseRecord extends LightningElement {
     { objectname: "User", selected: [] },
     { objectname: "Account", selected: [] }
   ];
-  //f =[];
+  // f =[];
   objects = ["User", "Account", "Contact", "Lead"];
   confirmed = false;
 
-  /*
-  for(obj of objects) {
-    this.f = [this.f, {objectname: obj, selected: []}]
-  }
-  */
+  
+  // for(obj of objects) {
+  //   this.f = [this.f, {objectname: obj, selected: []}]
+  // }
+  
 
   handleFieldsChange(e) {
     this.fields[this.objects.indexOf(e.detail.objectname)].selected = [
