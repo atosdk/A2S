@@ -1,43 +1,46 @@
 import { LightningElement } from "lwc";
-import getFields from "@salesforce/apex/A2S_FieldSelectionHandler.getFields";
 
 export default class AnonymiseRecord extends LightningElement {
-  options = [];
-  values = [];
-  requiredOptions = [];
-  isFirst = true;
-  _fields = [];
+  fields = [
+    { objectname: "User", selected: [] },
+    { objectname: "Account", selected: [] },
+    { objectname: "Contact", selected: [] },
+    { objectname: "Lead", selected: [] },
+    { objectname: "CampaignMember", selected: [] }
+  ];
+  //f =[];
+  objects = ["User", "Account", "Contact", "Lead", "CampaignMember"];
+  confirmed = false;
 
-  async connectedCallback() {
-    await this.fetchData();
+  /*
+  for(const obj of this.objects) {
+    this.f = [this.f, {objectname: obj, selected: []}]
+  }
+  */
+
+  handleFieldsChange(e) {
+    this.fields[this.objects.indexOf(e.detail.objectname)].selected = [
+      ...e.detail.selected
+    ];
   }
 
-  get fields() {
-    return this._fields.length ? this._fields : "";
+  handelCheckbox(e) {
+    console.log(e.target.checked);
+    this.confirmed = true;
   }
 
-  handleChange(e) {
-    this._fields = e.detail.value;
-  }
-
-  async fetchData() {
-    await getFields({
-      objectname: "User"
-    })
-      .then((result) => {
-        let data = JSON.parse(JSON.stringify(result));
-        let lstOption = [];
-        for (let i = 0; i < data.length; i++) {
-          lstOption.push({
-            value: data[i].QualifiedApiName,
-            label: data[i].DeveloperName
-          });
-        }
-        this.options = lstOption;
-        console.log(lstOption);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+  handleClick() {
+    if (this.confirmed) {
+      // eslint-disable-next-line no-alert
+      alert("Selected fields: \n" + this.fields);
+    } else {
+      console.log(
+        this.fields[0],
+        this.fields[1],
+        this.fields[2],
+        this.fields[3],
+        this.fields[4]
+      );
+    }
   }
 }

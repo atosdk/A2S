@@ -1,0 +1,19 @@
+<template>
+  <div class="slds-m-bottom_medium">
+    <h4><b>{objectname} fields</b></h4>
+  </div>
+
+  <div>
+    <lightning-dual-listbox
+      name="languages"
+      label="Please select fields"
+      source-label="Available"
+      selected-label="Selected"
+      field-level-help="Select fields to anonymise"
+      options={options}
+      required-options={requiredOptions}
+      value={values}
+      onchange={handleChange}
+    ></lightning-dual-listbox>
+  </div>
+</template>
