@@ -40,7 +40,7 @@ export default class FieldSelectionTab extends LightningElement {
           });
         }
         this.options = lstOption;
-        console.log(lstOption);
+        //console.log(lstOption);
       })
       .catch((error) => {
         console.error(error);

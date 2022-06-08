@@ -1,4 +1,5 @@
 import { LightningElement } from "lwc";
+import anonymiseFields from "@salesforce/apex/A2S_FieldSelectionHandler.anonymiseFields";
 
 export default class AnonymiseRecord extends LightningElement {
   fields = [
@@ -8,6 +9,7 @@ export default class AnonymiseRecord extends LightningElement {
     { objectname: "Lead", selected: [] },
     { objectname: "CampaignMember", selected: [] }
   ];
+
   //f =[];
   objects = ["User", "Account", "Contact", "Lead", "CampaignMember"];
   confirmed = false;
@@ -29,17 +31,33 @@ export default class AnonymiseRecord extends LightningElement {
     this.confirmed = true;
   }
 
+  // NOT NEEDED => ONLY FOR TESTING
+  lsUsers;
+
+  /*****************************
+    
+    TODO: Return toast
+    TODO: Clear all selected (rerender component)
+
+   ****************************/
+
   handleClick() {
     if (this.confirmed) {
-      // eslint-disable-next-line no-alert
-      alert("Selected fields: \n" + this.fields);
+      console.log("Ok");
     } else {
+      anonymiseFields({ fields: this.fields[0].selected })
+        .then((res) => {
+          this.lsUsers = res;
+        })
+        .catch((err) => console.log(err.body.message));
+
       console.log(
-        this.fields[0],
-        this.fields[1],
-        this.fields[2],
-        this.fields[3],
-        this.fields[4]
+        this.lsUsers
+        // this.fields[0],
+        // this.fields[1],
+        // this.fields[2],
+        // this.fields[3],
+        // this.fields[4]
       );
     }
   }
