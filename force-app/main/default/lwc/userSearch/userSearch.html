@@ -7,5 +7,5 @@
             value={key}
             onchange={updateKey}>
         </lightning-input>
-        <lightning-button label="Search" onclick={handleSearch} variant="brand"></lightning-button>
+        <lightning-datatable key-field="id" data={users.data} columns={cols}></lightning-datatable>
   </template>

@@ -1,4 +1,4 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import getUsers from "@salesforce/apex/A2S_UserSearch.getUsers";
 
 export default class UserSearch extends LightningElement {
@@ -8,11 +8,19 @@ export default class UserSearch extends LightningElement {
         this.key = event.target.value;
     }
 
-    handleSearch(){
-        getUsers({searchKey: this.key})
-        .then(r=>{
+    @wire(getUsers, {searchKey: '$key'}) users;
 
-        })
-        .catch();
-    }
+    // handleSearch(){
+    //     getUsers({searchKey: this.key})
+    //     .then(result=>{
+    //         this.users = result;
+    //     })
+    //     .catch(error=>{
+    //         this.users = null;
+    //     });
+    // }
+
+    cols = [
+        {label: 'Name', fieldName: 'Name', type: 'text'}
+    ]
 }
