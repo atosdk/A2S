@@ -49,7 +49,10 @@ export default class AnonymiseRecord extends LightningElement {
       console.log("Ok");
     } else {
       //await this.fetchData('Account');
-      anonymiseFields({ objectname: "Account" }) //{ fields: this.fields[1].selected })
+      anonymiseFields({
+        objectname: "Account",
+        selectedfields: this.fields[1].selected
+      }) //{ fields: this.fields[1].selected })
         .then((res) => {
           this.lsUsers = res;
         })

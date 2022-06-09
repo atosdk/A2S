@@ -13,18 +13,21 @@ public with sharing class A2S_FieldSelectionHandler {
   }
 
   @AuraEnabled //(cacheable=true)
-  public static List<Account> anonymiseFields(String objectname) {
+  public static void anonymiseFields(
+    String objectname,
+    List<String> selectedfields
+  ) {
     // Pass original object as well
 
     List<String> fieldsSelected = new List<String>{ 'Phone' };
 
     if (objectname == 'Account') {
-      updateAccounts(fieldsSelected);
+      updateAccounts(selectedfields);
     } else {
-      updateAccounts(fieldsSelected);
+      //updateAccounts(se);
     }
 
-    return updateAccounts(fieldsSelected);
+    //return updateAccounts(fieldsSelected);
   }
 
   private static List<Account> updateAccounts(List<String> fieldsSelected) {
@@ -36,7 +39,8 @@ public with sharing class A2S_FieldSelectionHandler {
 
     List<Account> updatedAccounts = new List<Account>();
 
-    String Name,
+    String Phone,
+      Name,
       Type,
       ParentId,
       BillingStreet,
@@ -50,7 +54,6 @@ public with sharing class A2S_FieldSelectionHandler {
       ShippingPostalCode,
       ShippingCountry,
       ShippingAddress,
-      Phone,
       Fax,
       Website,
       Industry,
@@ -63,7 +66,7 @@ public with sharing class A2S_FieldSelectionHandler {
 
     for (Account acc : account) {
       if (fieldsSelected.contains('Phone')) {
-        Phone = encryptField(acc.Phone);
+        Phone = encryptField('random');
       } else if (filled.contains('Phone')) {
         Phone = acc.Phone;
       } else {
@@ -71,14 +74,56 @@ public with sharing class A2S_FieldSelectionHandler {
       }
 
       if (fieldsSelected.contains('Name')) {
-        Name = encryptField(acc.Phone);
+        Name = encryptField('random');
       } else if (filled.contains('Name')) {
         Name = acc.Name;
       } else {
         Name = '';
       }
 
-      updatedAccounts.add(new Account(Id = acc.Id, Name = Name, Phone = Phone));
+      if (fieldsSelected.contains('Type')) {
+        Type = encryptField('random');
+      } else if (filled.contains('Type')) {
+        Type = acc.Type;
+      } else {
+        Type = '';
+      }
+
+      if (fieldsSelected.contains('BillingStreet')) {
+        BillingStreet = encryptField('random');
+      } else if (filled.contains('BillingStreet')) {
+        BillingStreet = acc.BillingStreet;
+      } else {
+        BillingStreet = '';
+      }
+
+      if (fieldsSelected.contains('BillingCity')) {
+        BillingCity = encryptField('random');
+      } else if (filled.contains('BillingCity')) {
+        BillingCity = acc.BillingCity;
+      } else {
+        BillingCity = '';
+      }
+
+      if (fieldsSelected.contains('Fax')) {
+        Fax = encryptField('random');
+      } else if (filled.contains('Fax')) {
+        Fax = acc.Fax;
+      } else {
+        Fax = '';
+      }
+
+      updatedAccounts.add(
+        new Account(
+          Id = acc.Id,
+          Name = Name,
+          Phone = Phone,
+          Type = Type,
+          BillingStreet = BillingStreet,
+          BillingCity = BillingCity,
+          Fax = Fax
+        )
+      );
     }
 
     update updatedAccounts;
@@ -92,7 +137,8 @@ public with sharing class A2S_FieldSelectionHandler {
     Blob data = Blob.valueOf(fieldValue);
     Blob encrypted = Crypto.encrypt('AES128', key, exampleIv, data);
 
-    return EncodingUtil.base64Encode(encrypted);
+    String value = EncodingUtil.base64Encode(encrypted);
+    return value;
   }
 }
 
