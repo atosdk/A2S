@@ -1,5 +1,6 @@
 import { LightningElement } from "lwc";
 import anonymiseFields from "@salesforce/apex/A2S_FieldSelectionHandler.anonymiseFields";
+import getFields from "@salesforce/apex/A2S_FieldSelectionHandler.getFields";
 
 export default class AnonymiseRecord extends LightningElement {
   fields = [
@@ -41,11 +42,14 @@ export default class AnonymiseRecord extends LightningElement {
 
    ****************************/
 
-  handleClick() {
+  options = [];
+
+  async handleClick() {
     if (this.confirmed) {
       console.log("Ok");
     } else {
-      anonymiseFields() //{ fields: this.fields[1].selected })
+      //await this.fetchData('Account');
+      anonymiseFields({ objectname: "Account" }) //{ fields: this.fields[1].selected })
         .then((res) => {
           this.lsUsers = res;
         })
@@ -60,5 +64,23 @@ export default class AnonymiseRecord extends LightningElement {
         // this.fields[4]
       );
     }
+  }
+
+  async fetchData(object) {
+    await getFields({
+      objectname: object
+    })
+      .then((result) => {
+        let data = JSON.parse(JSON.stringify(result));
+        let lstOption = [];
+        for (let i = 0; i < data.length; i++) {
+          lstOption.push(data[i].DeveloperName);
+        }
+        this.options = lstOption;
+        //console.log(lstOption);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 }
