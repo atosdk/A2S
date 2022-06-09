@@ -8,17 +8,55 @@ public with sharing class A2S_FieldSelectionHandler {
   }
 
   @AuraEnabled(cacheable=true)
-  public static List<User> anonymiseFields(List<String> fields) {
+  public static List<Account> anonymiseFields(List<String> fields) {
     String query = 'SELECT ';
 
     for (String field : fields) {
       query += field + ',';
     }
 
-    query += 'Title';
-    query += ' FROM User WITH SECURITY_ENFORCED LIMIT 3';
+    query += 'Name';
+    query += ' FROM Account WITH SECURITY_ENFORCED LIMIT 3';
 
-    List<User> users = Database.query(query);
+    List<Account> accounts = Database.query(query);
+
+    //Map<String, Object> queriedFields = users.getPopulatedFieldsAsMap();
+    List<Account> updatedAccounts = new List<Account>();
+
+    Set<String> allFields = new Set<String>();
+    allFields.addAll(fields);
+
+    for (Account acc : accounts) {
+      Account temp = new Account(Name = 'Test', Phone = '0000000000');
+
+      if (allFields.contains('Phone')) {
+        Blob exampleIv = Blob.valueOf('Example of IV123');
+        Blob key = Crypto.generateAesKey(128);
+        Blob data = Blob.valueOf(acc.Phone);
+        Blob encrypted = Crypto.encrypt('AES128', key, exampleIv, data);
+
+        String value = EncodingUtil.base64Encode(encrypted);
+
+        temp.Phone = value;
+      }
+      updatedAccounts.add(temp);
+    }
+    // for (Account usr : Accounts) {
+    //   for (String field : fields) {
+    //     Blob exampleIv = Blob.valueOf('Example of IV123');
+    //     Blob key = Crypto.generateAesKey(128);
+    //     Blob data = Blob.valueOf(usr.field);
+    //     Blob encrypted = Crypto.encrypt('AES128', key, exampleIv, data);
+
+    //     usr.field = encrypted;
+    //   }
+    //   updatedUsers.add(usr);
+    // }
+
+    // Blob exampleIv = Blob.valueOf('Example of IV123');
+    // Blob key = Crypto.generateAesKey(128);
+    // Blob data = Blob.valueOf('Data to be encrypted');
+    // Blob encrypted = Crypto.encrypt('AES128', key, exampleIv, data);
 
     /**************************
      
@@ -26,6 +64,8 @@ public with sharing class A2S_FieldSelectionHandler {
      TODO: Select record by ID
      
      **************************/
-    return users;
+    // String value = EncodingUtil.base64Encode(encrypted);
+
+    return updatedAccounts;
   }
 }
