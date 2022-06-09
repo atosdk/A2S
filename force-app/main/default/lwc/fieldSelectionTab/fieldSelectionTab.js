@@ -29,18 +29,19 @@ export default class FieldSelectionTab extends LightningElement {
   async fetchData() {
     await getFields({
       objectname: this.objectname
+      //objectid : this.id
     })
       .then((result) => {
         let data = JSON.parse(JSON.stringify(result));
         let lstOption = [];
         for (let i = 0; i < data.length; i++) {
           lstOption.push({
-            value: data[i].QualifiedApiName,
-            label: data[i].DeveloperName
+            value: data[i],
+            label: data[i]
           });
         }
         this.options = lstOption;
-        //console.log(lstOption);
+        console.log(lstOption);
       })
       .catch((error) => {
         console.error(error);

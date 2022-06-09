@@ -1,100 +1,43 @@
 public with sharing class A2S_FieldSelectionHandler {
   @AuraEnabled(cacheable=true)
-  public static List<FieldDefinition> getFields(string objectname) {
-    string query = 'select DeveloperName,QualifiedApiName from FieldDefinition where EntityDefinition.QualifiedApiName = :objectname ORDER BY DeveloperName ASC';
-    list<FieldDefinition> lstObject = Database.query(query);
-    system.debug('lstObject==> ' + lstObject);
-    return lstObject;
+  public static List<String> getFields(String objectname) {
+    String query = 'SELECT FIELDS(STANDARD) FROM ';
+    query += objectname;
+    query += ' WHERE Name = \'test\'';
+    SObject objectType = Database.query(query);
+
+    Map<String, Object> apiNameObjectMap = objectType.getPopulatedFieldsAsMap();
+    return new List<String>(apiNameObjectMap.keySet());
   }
 
-  @AuraEnabled //(cacheable=true)
-  public static Account anonymiseFields() {
-    //List<String> fields) {
-    // Pass original object as well
+  // TODO: Pass ID & select by ID
+  @AuraEnabled
+  public static void anonymiseFields(
+    String objectname,
+    List<String> selectedfields
+  ) {
+    String query = 'SELECT FIELDS(STANDARD) FROM ';
+    query += objectname;
+    query += ' WHERE Name = \'test\'';
+    SObject selectedObject = Database.query(query);
 
-    List<String> fields = new List<String>{ 'Phone', 'Name' };
-
-    String query = 'SELECT ';
-
-    for (String field : fields) {
-      query += field + ',';
+    for (String field : selectedfields) {
+      Object oldField = (Object) selectedObject.put(
+        field,
+        encryptField('random')
+      );
     }
 
-    List<String> fieldsSelected = new List<String>{ 'Phone', 'Name' };
-    query += 'Id';
-    query += ' FROM Account WHERE Name = \'test\' WITH SECURITY_ENFORCED LIMIT 1';
+    update selectedObject;
+  }
 
-    List<Account> accounts = Database.query(query);
-    String phone;
-    String name;
+  private static String encryptField(String fieldValue) {
+    Blob exampleIv = Blob.valueOf('Example of IV123');
+    Blob key = Crypto.generateAesKey(128);
+    Blob data = Blob.valueOf(fieldValue);
+    Blob encrypted = Crypto.encrypt('AES128', key, exampleIv, data);
 
-    Account currAcc = accounts[0];
-
-    if (fieldsSelected.contains('Phone')) {
-      phone = '000';
-    } else {
-      phone = currAcc.Phone;
-    }
-
-    Account updated = new Account(
-      Id = accounts[0].Id,
-      Name = 'Test',
-      Phone = phone
-    );
-
-    update updated;
-
-    return accounts[0];
+    String value = EncodingUtil.base64Encode(encrypted);
+    return value;
   }
 }
-
-//Map<String, Object> queriedFields = users.getPopulatedFieldsAsMap();
-//       List<Account> updatedAccounts = new List<Account>();
-
-//       Set<String> allFields = new Set<String>();
-//       allFields.addAll(fields);
-
-//       for (Account acc : accounts) {
-//         Account temp = new Account(Name = 'Test', Phone = '0000000000');
-
-//         if (allFields.contains('Phone')) {
-//           Blob exampleIv = Blob.valueOf('Example of IV123');
-//           Blob key = Crypto.generateAesKey(128);
-//           Blob data = Blob.valueOf(acc.Phone);
-//           Blob encrypted = Crypto.encrypt('AES128', key, exampleIv, data);
-
-//           String value = EncodingUtil.base64Encode(encrypted);
-
-//           temp.Phone = value;
-//         }
-//         updatedAccounts.add(temp);
-//       }
-//       // for (Account usr : Accounts) {
-//       //   for (String field : fields) {
-//       //     Blob exampleIv = Blob.valueOf('Example of IV123');
-//       //     Blob key = Crypto.generateAesKey(128);
-//       //     Blob data = Blob.valueOf(usr.field);
-//       //     Blob encrypted = Crypto.encrypt('AES128', key, exampleIv, data);
-
-//       //     usr.field = encrypted;
-//       //   }
-//       //   updatedUsers.add(usr);
-//       // }
-
-//       // Blob exampleIv = Blob.valueOf('Example of IV123');
-//       // Blob key = Crypto.generateAesKey(128);
-//       // Blob data = Blob.valueOf('Data to be encrypted');
-//       // Blob encrypted = Crypto.encrypt('AES128', key, exampleIv, data);
-
-//       /**************************
-
-//        TODO: Anonymise queried fields
-//        TODO: Select record by ID
-
-//        **************************/
-//       // String value = EncodingUtil.base64Encode(encrypted);
-
-//       return updatedAccounts;
-//     }
-//   }
-
