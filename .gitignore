@@ -1,0 +1,12 @@
+node_modules
+.husky
+.localdevserver
+.sf
+.sfdx
+.vscode
+.eslintignore
+.forceignore
+.prettierignore
+
+
+
