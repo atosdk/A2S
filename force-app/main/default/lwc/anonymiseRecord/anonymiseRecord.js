@@ -45,7 +45,7 @@ export default class AnonymiseRecord extends LightningElement {
     if (this.confirmed) {
       console.log("Ok");
     } else {
-      anonymiseFields({ fields: this.fields[1].selected })
+      anonymiseFields() //{ fields: this.fields[1].selected })
         .then((res) => {
           this.lsUsers = res;
         })
