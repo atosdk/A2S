@@ -9,10 +9,6 @@
         <p>Some info</p>
       </lightning-tab>
 
-      <div>
-        <c-user-search></c-user-search>
-      </div>
-
       <template for:each={objects} for:item="object">
         <lightning-tab key={object} label={object}>
           <c-field-selection-tab
