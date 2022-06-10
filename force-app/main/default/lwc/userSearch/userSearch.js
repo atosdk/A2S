@@ -18,7 +18,7 @@ export default class UserSearch extends LightningElement {
     getUsers({ searchKey: this.key, objectname: this.objectname })
       .then((res) => {
         this.users = res;
-        console.log(this.users.data);
+        console.log(this.users);
       })
       .catch((err) => console.error(err));
   }
@@ -33,5 +33,8 @@ export default class UserSearch extends LightningElement {
   //     });
   // }
 
-  cols = [{ label: "Name", fieldName: "Name", type: "text" }];
+  cols = [
+    { label: "Name", fieldName: "Name", type: "text" },
+    { label: "Id", fieldName: "Id", type: "text" }
+  ];
 }
