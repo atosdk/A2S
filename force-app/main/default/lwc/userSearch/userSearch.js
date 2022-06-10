@@ -3,6 +3,7 @@ import getUsers from "@salesforce/apex/A2S_UserSearch.getUsers";
 
 export default class UserSearch extends LightningElement {
   @api objectname;
+  selectedIds = [];
   key;
   //@track users;
   updateKey(event) {
@@ -18,9 +19,16 @@ export default class UserSearch extends LightningElement {
     getUsers({ searchKey: this.key, objectname: this.objectname })
       .then((res) => {
         this.users = res;
-        console.log(this.users);
+        //console.log(this.users);
       })
       .catch((err) => console.error(err));
+  }
+
+  getSelectedId(event) {
+    const selectedRows = event.detail.selectedRows;
+
+    this.selectedIds = selectedRows;
+    console.log(this.selectedIds);
   }
 
   // handleSearch(){
