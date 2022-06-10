@@ -1,4 +1,6 @@
 import { LightningElement } from "lwc";
+import anonymiseFields from "@salesforce/apex/A2S_FieldSelectionHandler.anonymiseFields";
+import getFields from "@salesforce/apex/A2S_FieldSelectionHandler.getFields";
 
 export default class AnonymiseRecord extends LightningElement {
   fields = [
@@ -8,15 +10,9 @@ export default class AnonymiseRecord extends LightningElement {
     { objectname: "Lead", selected: [] },
     { objectname: "CampaignMember", selected: [] }
   ];
-  //f =[];
+
   objects = ["User", "Account", "Contact", "Lead", "CampaignMember"];
   confirmed = false;
-
-  /*
-  for(const obj of this.objects) {
-    this.f = [this.f, {objectname: obj, selected: []}]
-  }
-  */
 
   handleFieldsChange(e) {
     this.fields[this.objects.indexOf(e.detail.objectname)].selected = [
@@ -29,18 +25,44 @@ export default class AnonymiseRecord extends LightningElement {
     this.confirmed = true;
   }
 
-  handleClick() {
+  /*****************************
+    
+    TODO: Return toast
+    TODO: Clear all selected (rerender component)
+
+   ****************************/
+
+  options = [];
+
+  async handleClick() {
     if (this.confirmed) {
-      // eslint-disable-next-line no-alert
-      alert("Selected fields: \n" + this.fields);
+      console.log("Ok");
     } else {
-      console.log(
-        this.fields[0],
-        this.fields[1],
-        this.fields[2],
-        this.fields[3],
-        this.fields[4]
-      );
+      anonymiseFields({
+        objectname: "Account",
+        selectedfields: this.fields[1].selected
+      })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => console.log(err.body.message));
     }
+  }
+
+  async fetchData(object) {
+    await getFields({
+      objectname: object
+    })
+      .then((result) => {
+        let data = JSON.parse(JSON.stringify(result));
+        let lstOption = [];
+        for (let i = 0; i < data.length; i++) {
+          lstOption.push(data[i].DeveloperName);
+        }
+        this.options = lstOption;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 }
