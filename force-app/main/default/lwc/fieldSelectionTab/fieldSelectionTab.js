@@ -8,6 +8,7 @@ export default class FieldSelectionTab extends LightningElement {
   requiredOptions = [];
   isFirst = true;
   fields;
+  selectedRecords = [];
 
   async connectedCallback() {
     await this.fetchData();
@@ -26,10 +27,32 @@ export default class FieldSelectionTab extends LightningElement {
     this.dispatchEvent(selectedEvent);
   }
 
+  handleSelectedRecords(event) {
+    const selectedRecords = event.detail.value;
+
+    console.log("Mid: " + selectedRecords[0].Id);
+    this.selectedIds = selectedRecords;
+
+    // eslint-disable-next-line guard-for-in
+    // for(let id in event.detail.value) {
+
+    //     this.selectedIds.push(id.Id);
+
+    // }
+
+    this.fetchData();
+
+    const selectedEvent = new CustomEvent("selectedid", {
+      detail: { value: this.selectedIds }
+    });
+
+    this.dispatchEvent(selectedEvent);
+  }
+
   async fetchData() {
     await getFields({
-      objectname: this.objectname
-      //objectid : this.id
+      objectname: this.objectname,
+      objectid: this.selectedIds[0].Id
     })
       .then((result) => {
         let data = JSON.parse(JSON.stringify(result));

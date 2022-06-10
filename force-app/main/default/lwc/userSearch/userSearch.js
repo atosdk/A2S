@@ -4,42 +4,33 @@ import getUsers from "@salesforce/apex/A2S_UserSearch.getUsers";
 export default class UserSearch extends LightningElement {
   @api objectname;
   selectedIds = [];
+  users = [];
   key;
-  //@track users;
+
   updateKey(event) {
     this.key = event.target.value;
   }
-  users = [];
-
-  //@wire(getUsers, {searchKey: '$key', objectname : this.objectname }) users;
 
   handleClick() {
-    console.log(this.objectname);
-
     getUsers({ searchKey: this.key, objectname: this.objectname })
       .then((res) => {
         this.users = res;
-        //console.log(this.users);
       })
       .catch((err) => console.error(err));
   }
 
-  getSelectedId(event) {
-    const selectedRows = event.detail.selectedRows;
-
-    this.selectedIds = selectedRows;
+  handleSelect() {
     console.log(this.selectedIds);
+    const selectedEvent = new CustomEvent("selectedrecords", {
+      detail: { value: this.selectedIds }
+    });
+
+    this.dispatchEvent(selectedEvent);
   }
 
-  // handleSearch(){
-  //     getUsers({searchKey: this.key})
-  //     .then(result=>{
-  //         this.users = result;
-  //     })
-  //     .catch(error=>{
-  //         this.users = null;
-  //     });
-  // }
+  getSelectedId(event) {
+    this.selectedIds = event.detail.selectedRows;
+  }
 
   cols = [
     { label: "Name", fieldName: "Name", type: "text" },

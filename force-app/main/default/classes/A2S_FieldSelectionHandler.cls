@@ -1,9 +1,9 @@
 public with sharing class A2S_FieldSelectionHandler {
   @AuraEnabled(cacheable=true)
-  public static List<String> getFields(String objectname) {
+  public static List<String> getFields(String objectname, String objectid) {
     String query = 'SELECT FIELDS(STANDARD) FROM ';
     query += objectname;
-    query += ' WHERE Name = \'test\'';
+    query += ' WHERE Id = \'' + objectid + '\'';
     SObject objectType = Database.query(query);
 
     Map<String, Object> apiNameObjectMap = objectType.getPopulatedFieldsAsMap();
@@ -14,11 +14,12 @@ public with sharing class A2S_FieldSelectionHandler {
   @AuraEnabled
   public static void anonymiseFields(
     String objectname,
-    List<String> selectedfields
+    List<String> selectedfields,
+    String objectid
   ) {
     String query = 'SELECT FIELDS(STANDARD) FROM ';
     query += objectname;
-    query += ' WHERE Name = \'test\'';
+    query += ' WHERE Id = \'' + objectid + '\'';
     SObject selectedObject = Database.query(query);
 
     for (String field : selectedfields) {
