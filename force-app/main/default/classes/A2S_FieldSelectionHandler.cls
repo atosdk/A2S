@@ -1,13 +1,6 @@
 public with sharing class A2S_FieldSelectionHandler {
   @AuraEnabled(cacheable=true)
   public static List<String> getFields(String objectname, String objectid) {
-    // String query = 'SELECT FIELDS(STANDARD) FROM ';
-    // query += objectname;
-    // query += ' WHERE Id = \'' + objectid + '\'';
-    // SObject objectType = Database.query(query);
-
-    // Map<String, Object> apiNameObjectMap = objectType.getPopulatedFieldsAsMap();
-    // return new List<String>(apiNameObjectMap.keySet());
     String editString = '';
 
     Map<String, Schema.SObjectField> allFields = Schema.getGlobalDescribe()
@@ -17,14 +10,37 @@ public with sharing class A2S_FieldSelectionHandler {
 
     List<String> editableFields = new List<String>();
 
+    List<String> excludedFields = new List<String>{
+      //User
+      'Username',
+      'Email',
+      'Alias',
+      'TimeZoneSidKey',
+      'LocaleSidKey',
+      'EmailEncodingKey',
+      'ProfileId',
+      'LanguageLocaleKey',
+      'DigestFrequency',
+      'DefaultGroupNotificationFrequency',
+      'Id',
+      //Account
+      'ShippingPostalCode',
+      'IndustryTest__c',
+      'AnnualRevenue',
+      //Contact
+      'OtherPostalCode',
+      'MailingPostalCode',
+      //Lead
+      'PostalCode'
+    };
+
     for (Schema.SObjectField editfieds : allFields.values()) {
       Schema.DescribeFieldResult fieldResult = editfieds.getDescribe();
 
       if (
         fieldResult.isUpdateable() &&
         fieldResult.getType() != Schema.DisplayType.Boolean &&
-        fieldResult.getType() != Schema.DisplayType.ID &&
-        fieldResult.getType() != Schema.DisplayType.URL
+        fieldResult.getType() != Schema.DisplayType.REFERENCE
       ) {
         editableFields.add(fieldResult.getName());
         editString += ' ' + fieldResult.getName() + ',';
@@ -33,34 +49,70 @@ public with sharing class A2S_FieldSelectionHandler {
 
     editString = editString.removeEnd(',');
 
-    String query = 'SELECT' + editString + ' FROM ';
-    query += objectname;
-    query += ' WHERE Id = \'' + objectid + '\'';
+    String query =
+      'SELECT' +
+      editString +
+      ' FROM ' +
+      objectname +
+      ' WHERE Id = \'' +
+      objectid +
+      '\'';
     SObject objectType = Database.query(query);
 
     Map<String, Object> apiNameObjectMap = objectType.getPopulatedFieldsAsMap();
-    return new List<String>(apiNameObjectMap.keySet());
 
-    //return editableFields;
+    List<String> returnedFields = new List<String>(apiNameObjectMap.keySet());
+    List<String> displayedFields = new List<String>();
+
+    for (String field : returnedFields) {
+      if (excludedFields.contains(field) == false) {
+        displayedFields.add(field);
+      }
+    }
+
+    return displayedFields;
   }
 
-  // TODO: Pass ID & select by ID
   @AuraEnabled
   public static void anonymiseFields(
     String objectname,
     List<String> selectedfields,
     String objectid
   ) {
-    String query = 'SELECT FIELDS(STANDARD) FROM ';
-    query += objectname;
-    query += ' WHERE Id = \'' + objectid + '\'';
+    String query = 'SELECT ';
+    for (String field : selectedfields) {
+      query += field + ',';
+    }
+    query = query.removeEnd(',');
+    query += ' FROM ' + objectname + ' WHERE Id = \'' + objectid + '\'';
     SObject selectedObject = Database.query(query);
 
     for (String field : selectedfields) {
-      Object oldField = (Object) selectedObject.put(
-        field,
-        encryptField('random')
-      );
+      Schema.DisplayType fieldType = Schema.getGlobalDescribe()
+        .get(objectname)
+        .getDescribe()
+        .fields
+        .getMap()
+        .get(field)
+        .getDescribe()
+        .getType();
+
+      if (
+        fieldType == Schema.DisplayType.INTEGER ||
+        fieldType == Schema.DisplayType.DOUBLE
+      ) {
+        Object oldField = (Object) selectedObject.put(field, 0);
+      } else if (fieldType == Schema.DisplayType.DATE) {
+        Object oldField = (Object) selectedObject.put(
+          field,
+          Date.newInstance(2033, 1, 1)
+        );
+      } else {
+        Object oldField = (Object) selectedObject.put(
+          field,
+          encryptField('random')
+        );
+      }
     }
 
     update selectedObject;
