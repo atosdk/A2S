@@ -13,25 +13,16 @@ public with sharing class A2S_FieldSelectionHandler {
     List<String> excludedFields = new List<String>{
       //User
       'Username',
-      'Email',
       'Alias',
       'TimeZoneSidKey',
       'LocaleSidKey',
       'EmailEncodingKey',
-      'ProfileId',
       'LanguageLocaleKey',
       'DigestFrequency',
       'DefaultGroupNotificationFrequency',
       'Id',
       //Account
-      'ShippingPostalCode',
-      'IndustryTest__c',
-      'AnnualRevenue',
-      //Contact
-      'OtherPostalCode',
-      'MailingPostalCode',
-      //Lead
-      'PostalCode'
+      'IndustryTest__c'
     };
 
     for (Schema.SObjectField editfieds : allFields.values()) {
@@ -99,7 +90,8 @@ public with sharing class A2S_FieldSelectionHandler {
 
       if (
         fieldType == Schema.DisplayType.INTEGER ||
-        fieldType == Schema.DisplayType.DOUBLE
+        fieldType == Schema.DisplayType.DOUBLE ||
+        fieldType == Schema.DisplayType.CURRENCY
       ) {
         Object oldField = (Object) selectedObject.put(field, 0);
       } else if (fieldType == Schema.DisplayType.DATE) {
@@ -107,6 +99,8 @@ public with sharing class A2S_FieldSelectionHandler {
           field,
           Date.newInstance(2033, 1, 1)
         );
+      } else if (fieldType == Schema.DisplayType.EMAIL) {
+        Object oldField = (Object) selectedObject.put(field, 'email@email.com');
       } else {
         Object oldField = (Object) selectedObject.put(
           field,
@@ -114,6 +108,11 @@ public with sharing class A2S_FieldSelectionHandler {
         );
       }
     }
+
+    Object oldField = (Object) selectedObject.put(
+      'Description',
+      'Data anonymized on: ' + Datetime.now().format('dd/mm/y h:mm a')
+    );
 
     update selectedObject;
   }
@@ -125,6 +124,6 @@ public with sharing class A2S_FieldSelectionHandler {
     Blob encrypted = Crypto.encrypt('AES128', key, exampleIv, data);
 
     String value = EncodingUtil.base64Encode(encrypted);
-    return value;
+    return value.mid(0, 5);
   }
 }
