@@ -8,7 +8,7 @@ public with sharing class A2S_UserSearch {
       objectname +
       ' WHERE Name LIKE \'%' +
       searchKey +
-      '%\'';
+      '%\' AND Anonymised__c = false';
 
     list<SObject> lstObject = Database.query(query);
     return lstObject;

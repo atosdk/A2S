@@ -7,7 +7,7 @@ export default class FieldSelectionTab extends LightningElement {
   values = [];
   requiredOptions = [];
   isFirst = true;
-  fields;
+  fields = [];
   selectedRecords = [];
   requiredFieldNames = [
     "FirstName",
@@ -24,7 +24,7 @@ export default class FieldSelectionTab extends LightningElement {
   }
 
   handleChange(e) {
-    this.fields = e.detail.value;
+    this.fields = this.requiredOptions.concat(e.detail.value);
 
     const selectedEvent = new CustomEvent("fieldschange", {
       detail: {
@@ -70,15 +70,13 @@ export default class FieldSelectionTab extends LightningElement {
 
         for (let i = 0; i < data.length; i++) {
           if (this.requiredFieldNames.includes(data[i])) {
-            lstRequiredOptions.push({
+            lstRequiredOptions.push(data[i]);
+          } else {
+            lstOption.push({
               value: data[i],
               label: data[i]
             });
           }
-          lstOption.push({
-            value: data[i],
-            label: data[i]
-          });
         }
         this.options = lstOption;
         this.requiredOptions = lstRequiredOptions;

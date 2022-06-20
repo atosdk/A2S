@@ -2,6 +2,7 @@
 public class A2S_FieldSelectionHandlerTest {
   @IsTest
   static void getFieldsTest() {
+
     Account account1 = new Account(
       Name = 'Test1'
     );
@@ -13,7 +14,7 @@ public class A2S_FieldSelectionHandlerTest {
 
     List<String> real2 = A2S_FieldSelectionHandler.getFields('Account', selectedObject[0].Id);
 
-    
+
 
     Test.startTest();
     System.assertEquals(true, real2.contains('Name'), 'Test1');
@@ -22,6 +23,7 @@ public class A2S_FieldSelectionHandlerTest {
 
   @IsTest
   static void anonymiseFieldsTest() {
+
     Account account1 = new Account(
       Name = 'Test2',
       Phone = '012345678'
@@ -49,3 +51,4 @@ public class A2S_FieldSelectionHandlerTest {
     Test.stopTest();
   }
 }
+
