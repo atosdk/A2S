@@ -31,13 +31,17 @@ public class A2S_FieldSelectionHandlerTest {
     String accname = 'Test2';
     String query = 'SELECT Id FROM Account WHERE Name = ' + accname ;
     List<SObject> selectedObject = Database.query(query);
-    String objId = selectedObject.Id[0];
+    String objId = selectedObject[0].Id;
 
+    String objType = String.valueOf(objId);
+    System.debug(objType);
 
+    List<String> phone = new List<String>{'phone'};
 
-    String real2 = A2S_FieldSelectionHandler.anonymiseFields('Account', 'phone', objId);
+    // A2S_FieldSelectionHandler fs = new A2S_FieldSelectionHandler();
+    List<String> real2 = A2S_FieldSelectionHandler.anonymiseFields('Account', phone, objId);
 
-    String encodedPhone = real2;
+    String encodedPhone = real2[0];
     
 
     Test.startTest();
