@@ -70,10 +70,13 @@ public with sharing class A2S_FieldSelectionHandler {
     List<String> selectedfields,
     String objectid
   ) {
-    String query = 'SELECT ';
+    selectedfields.add('Anonymised__c');
+
+    String query = 'SELECT  ';
     for (String field : selectedfields) {
       query += field + ',';
     }
+
     query = query.removeEnd(',');
     query += ' FROM ' + objectname + ' WHERE Id = \'' + objectid + '\'';
     SObject selectedObject = Database.query(query);
@@ -101,6 +104,8 @@ public with sharing class A2S_FieldSelectionHandler {
         );
       } else if (fieldType == Schema.DisplayType.EMAIL) {
         Object oldField = (Object) selectedObject.put(field, 'email@email.com');
+      } else if (field == 'Anonymised__c') {
+        Object oldField = (Object) selectedObject.put(field, true);
       } else {
         Object oldField = (Object) selectedObject.put(
           field,
@@ -109,12 +114,68 @@ public with sharing class A2S_FieldSelectionHandler {
       }
     }
 
-    Object oldField = (Object) selectedObject.put(
-      'Description',
-      'Data anonymized on: ' + Datetime.now().format('dd/mm/y h:mm a')
-    );
+    if (objectname == 'User') {
+      Object oldField = (Object) selectedObject.put(
+        'AboutMe',
+        'Data anonymized on: ' + Datetime.now().format('dd/MM/y h:mm a')
+      );
+    } else {
+      Object oldField = (Object) selectedObject.put(
+        'Description',
+        'Data anonymized on: ' + Datetime.now().format('dd/MM/y h:mm a')
+      );
+    }
+
+    /*
+     *
+     * Check for related contacts on account and anonymise them.
+     *
+     */
+
+    if (objectname == 'Account') {
+      // Anonymise all related Contacts
+      List<Contact> relContacts = [
+        SELECT Id, Name
+        FROM Contact
+        WHERE AccountId = :objectid
+      ];
+      if (relContacts.size() != 0) {
+        for (Contact con : relContacts) {
+          List<String> stdFields = new List<String>{
+            'FirstName',
+            'LastName',
+            'Phone',
+            'Email'
+          };
+          anonymiseFields('Contact', stdFields, con.Id);
+        }
+      }
+
+      // Anonymise all related Leads
+      List<Lead> relLeads = [
+        SELECT Id
+        FROM Lead
+        WHERE PartnerAccountId = :objectid
+      ];
+      if (relLeads.size() != 0) {
+        for (Lead lead : relLeads) {
+          List<String> stdFields = new List<String>{
+            'FirstName',
+            'LastName',
+            'Phone',
+            'Email',
+            'Company'
+          };
+          anonymiseFields('Lead', stdFields, lead.Id);
+        }
+      }
+    }
 
     update selectedObject;
+
+    if (objectname == 'User') {
+      UserManagement.obfuscateUser((Id) objectid);
+    }
   }
 
   private static String encryptField(String fieldValue) {

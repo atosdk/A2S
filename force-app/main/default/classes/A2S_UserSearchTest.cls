@@ -40,3 +40,4 @@ public class A2S_UserSearchTest {
     Test.stopTest();
   }
 }
+
