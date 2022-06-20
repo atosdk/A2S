@@ -45,7 +45,7 @@ public class A2S_FieldSelectionHandlerTest {
     
 
     Test.startTest();
-    System.assertNotEquals('012345678', phone[0], 'Anonymisation did not work');
+    System.assertNotEquals('012345678', phone[0], 'Failed to anonymise');
     Test.stopTest();
   }
 }
