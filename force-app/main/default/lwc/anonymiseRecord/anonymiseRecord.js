@@ -46,7 +46,9 @@ export default class AnonymiseRecord extends LightningElement {
 
   options = [];
 
+
   handleClick() {
+
     anonymiseFields({
       objectname: this.lastObject,
       selectedfields:
