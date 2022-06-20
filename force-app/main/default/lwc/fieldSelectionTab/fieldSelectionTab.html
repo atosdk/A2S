@@ -1,5 +1,8 @@
 <template>
-  <c-user-search objectname={objectname}></c-user-search>
+  <c-user-search
+    objectname={objectname}
+    onselectedrecords={handleSelectedRecords}
+  ></c-user-search>
 
   <div class="slds-m-bottom_medium">
     <h4><b>{objectname} fields</b></h4>
