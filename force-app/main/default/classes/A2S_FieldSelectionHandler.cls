@@ -133,6 +133,7 @@ public with sharing class A2S_FieldSelectionHandler {
      */
 
     if (objectname == 'Account') {
+      // Anonymise all related Contacts
       List<Contact> relContacts = [
         SELECT Id, Name
         FROM Contact
@@ -147,6 +148,25 @@ public with sharing class A2S_FieldSelectionHandler {
             'Email'
           };
           anonymiseFields('Contact', stdFields, con.Id);
+        }
+      }
+
+      // Anonymise all related Leads
+      List<Lead> relLeads = [
+        SELECT Id
+        FROM Lead
+        WHERE PartnerAccountId = :objectid
+      ];
+      if (relLeads.size() != 0) {
+        for (Lead lead : relLeads) {
+          List<String> stdFields = new List<String>{
+            'FirstName',
+            'LastName',
+            'Phone',
+            'Email',
+            'Company'
+          };
+          anonymiseFields('Lead', stdFields, lead.Id);
         }
       }
     }
