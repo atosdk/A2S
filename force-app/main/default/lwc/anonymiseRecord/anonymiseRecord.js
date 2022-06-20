@@ -1,5 +1,6 @@
 import { LightningElement } from "lwc";
 import anonymiseFields from "@salesforce/apex/A2S_FieldSelectionHandler.anonymiseFields";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class AnonymiseRecord extends LightningElement {
   fields = [
@@ -46,19 +47,40 @@ export default class AnonymiseRecord extends LightningElement {
   options = [];
 
   async handleClick() {
-    if (this.confirmed) {
-      console.log("Ok");
-    } else {
-      anonymiseFields({
-        objectname: this.lastObject,
-        selectedfields:
-          this.fields[this.objects.indexOf(this.lastObject)].selected,
-        objectid: this.selectedIds[0].Id
+    anonymiseFields({
+      objectname: this.lastObject,
+      selectedfields:
+        this.fields[this.objects.indexOf(this.lastObject)].selected,
+      objectid: this.selectedIds[0].Id
+    })
+      .then((res) => {
+        console.log(res);
+
+        const notification = new ShowToastEvent({
+          title: "Success!",
+          message:
+            "Fields for " +
+            this.lastObject +
+            " (ID: " +
+            this.selectedIds[0].Id +
+            ") were successfully anonymised.",
+          variant: "success",
+          mode: "dismissable"
+        });
+
+        this.dispatchEvent(notification);
       })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => console.log(err.body.message));
-    }
+      .catch((err) => {
+        console.log(err.body.message);
+
+        const notification = new ShowToastEvent({
+          title: "Error",
+          message: "Please check fields and try again.",
+          variant: "error",
+          mode: "dismissable"
+        });
+
+        this.dispatchEvent(notification);
+      });
   }
 }

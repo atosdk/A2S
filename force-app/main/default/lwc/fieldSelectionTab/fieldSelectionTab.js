@@ -9,6 +9,15 @@ export default class FieldSelectionTab extends LightningElement {
   isFirst = true;
   fields;
   selectedRecords = [];
+  requiredFieldNames = [
+    "FirstName",
+    "LastName",
+    "Name",
+    "Phone",
+    "Email",
+    "Gender",
+    "DOB__c"
+  ];
 
   async connectedCallback() {
     await this.fetchData();
@@ -57,14 +66,26 @@ export default class FieldSelectionTab extends LightningElement {
       .then((result) => {
         let data = JSON.parse(JSON.stringify(result));
         let lstOption = [];
+        let lstRequiredOptions = [];
+
         for (let i = 0; i < data.length; i++) {
+          if (this.requiredFieldNames.includes(data[i])) {
+            lstRequiredOptions.push({
+              value: data[i],
+              label: data[i]
+            });
+          }
           lstOption.push({
             value: data[i],
             label: data[i]
           });
         }
         this.options = lstOption;
-        console.log(lstOption);
+        this.requiredOptions = lstRequiredOptions;
+        //this.values = lstRequiredOptions;
+
+        console.log(this.requiredOptions);
+        console.log(this.options);
       })
       .catch((error) => {
         console.error(error);
