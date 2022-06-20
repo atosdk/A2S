@@ -9,7 +9,7 @@ public class A2S_FieldSelectionHandlerTest {
 
     insert account1;
     String accname = 'Test1';
-    String query = 'SELECT Id, Name FROM Account WHERE Name = ' + accname ;
+    String query = 'SELECT Id, Name FROM Account WHERE Name = :accname' ;
     List<SObject> selectedObject = Database.query(query);
 
     List<String> real2 = A2S_FieldSelectionHandler.getFields('Account', selectedObject[0].Id);
@@ -31,7 +31,7 @@ public class A2S_FieldSelectionHandlerTest {
 
     insert account1;
     String accname = 'Test2';
-    String query = 'SELECT Id FROM Account WHERE Name = ' + accname ;
+    String query = 'SELECT Id FROM Account WHERE Name = :accname' ;
     List<SObject> selectedObject = Database.query(query);
     String objId = selectedObject[0].Id;
 
@@ -40,14 +40,12 @@ public class A2S_FieldSelectionHandlerTest {
 
     List<String> phone = new List<String>{'phone'};
 
-    // A2S_FieldSelectionHandler fs = new A2S_FieldSelectionHandler();
-    List<String> real2 = A2S_FieldSelectionHandler.anonymiseFields('Account', phone, objId);
+    A2S_FieldSelectionHandler.anonymiseFields('Account', phone, objId);
 
-    String encodedPhone = real2[0];
     
 
     Test.startTest();
-    System.assertNotEquals('012345678', encodedPhone, 'Anonymisation did not work');
+    System.assertNotEquals('012345678', phone[0], 'Anonymisation did not work');
     Test.stopTest();
   }
 }
