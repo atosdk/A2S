@@ -1,6 +1,6 @@
 import { LightningElement } from "lwc";
 import anonymiseFields from "@salesforce/apex/A2S_FieldSelectionHandler.anonymiseFields";
-import getFields from "@salesforce/apex/A2S_FieldSelectionHandler.getFields";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 export default class AnonymiseRecord extends LightningElement {
   fields = [
@@ -12,12 +12,24 @@ export default class AnonymiseRecord extends LightningElement {
   ];
 
   objects = ["User", "Account", "Contact", "Lead", "CampaignMember"];
+  selectedIds = [];
+  lastObject;
   confirmed = false;
 
   handleFieldsChange(e) {
     this.fields[this.objects.indexOf(e.detail.objectname)].selected = [
       ...e.detail.selected
     ];
+
+    this.lastObject = e.detail.objectname;
+  }
+
+  handleSelectedId(event) {
+    const selectedRecords = event.detail.value;
+
+    console.log("Top; " + selectedRecords[0].Id);
+
+    this.selectedIds = selectedRecords;
   }
 
   handelCheckbox(e) {
@@ -34,35 +46,41 @@ export default class AnonymiseRecord extends LightningElement {
 
   options = [];
 
-  async handleClick() {
-    if (this.confirmed) {
-      console.log("Ok");
-    } else {
-      anonymiseFields({
-        objectname: "Account",
-        selectedfields: this.fields[1].selected
-      })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => console.log(err.body.message));
-    }
-  }
-
-  async fetchData(object) {
-    await getFields({
-      objectname: object
+  handleClick() {
+    anonymiseFields({
+      objectname: this.lastObject,
+      selectedfields:
+        this.fields[this.objects.indexOf(this.lastObject)].selected,
+      objectid: this.selectedIds[0].Id
     })
-      .then((result) => {
-        let data = JSON.parse(JSON.stringify(result));
-        let lstOption = [];
-        for (let i = 0; i < data.length; i++) {
-          lstOption.push(data[i].DeveloperName);
-        }
-        this.options = lstOption;
+      .then((res) => {
+        console.log(res);
+
+        const notification = new ShowToastEvent({
+          title: "Success!",
+          message:
+            "Fields for " +
+            this.lastObject +
+            " (ID: " +
+            this.selectedIds[0].Id +
+            ") were successfully anonymised.",
+          variant: "success",
+          mode: "dismissable"
+        });
+
+        this.dispatchEvent(notification);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch((err) => {
+        console.log(err.body.message);
+
+        const notification = new ShowToastEvent({
+          title: "Error",
+          message: "Please check fields and try again.",
+          variant: "error",
+          mode: "dismissable"
+        });
+
+        this.dispatchEvent(notification);
       });
   }
 }

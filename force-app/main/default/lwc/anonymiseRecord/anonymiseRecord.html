@@ -6,7 +6,18 @@
 
     <lightning-tabset>
       <lightning-tab label="Info">
-        <p>Some info</p>
+        <p>
+          Please navigate to a tab with the object type you wish to anonimyise
+          and search for the required record.
+        </p>
+        <p class="slds-m-top_small">
+          Then select the target fields and confirm with the "Anonymise
+          Selected" button.
+        </p>
+
+        <p class="slds-m-top_small">Pre-selected (mandatory) fields:</p>
+
+        <p><b>First Name, Last Name, Phone Number, Email, Gender, DOB</b></p>
       </lightning-tab>
 
       <template for:each={objects} for:item="object">
@@ -14,20 +25,13 @@
           <c-field-selection-tab
             objectname={object}
             onfieldschange={handleFieldsChange}
+            onselectedid={handleSelectedId}
           ></c-field-selection-tab>
         </lightning-tab>
       </template>
     </lightning-tabset>
 
     <hr />
-
-    <div>
-      <lightning-input
-        type="checkbox"
-        label="Confirm"
-        onchange={handleCheckbox}
-      ></lightning-input>
-    </div>
 
     <div class="slds-m-top_medium">
       <lightning-button
